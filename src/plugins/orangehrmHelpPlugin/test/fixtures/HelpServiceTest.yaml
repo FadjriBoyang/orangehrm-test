@@ -1,3 +1,0 @@
-Config:
-  - {"name": "help.processorClass","value": "ZendeskHelpProcessor"}
-  - {"name": "help.url","value": "https://starterhelp.orangehrm.com"}

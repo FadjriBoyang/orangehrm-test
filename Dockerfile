@@ -18,13 +18,11 @@ RUN set -ex; \
 		unzip \
 	; \
 	\
-	cd .. && rm -r html; \
-	curl -fSL -o orangehrm.zip "https://sourceforge.net/projects/orangehrm/files/stable/${OHRM_VERSION}/orangehrm-${OHRM_VERSION}.zip"; \
-	echo "${OHRM_MD5} orangehrm.zip" | md5sum -c -; \
-	unzip -q orangehrm.zip "orangehrm-${OHRM_VERSION}/*"; \
-	mv orangehrm-$OHRM_VERSION html; \
-	rm -rf orangehrm.zip; \
-	chown www-data:www-data html; \
+	cd .. && rm -r html;
+
+COPY orangehrm-$OHRM_VERSION html
+
+RUN chown www-data:www-data html; \
 	chown -R www-data:www-data html/src/cache html/src/log html/src/config; \
 	chmod -R 775 html/src/cache html/src/log html/src/config; \
 	\
