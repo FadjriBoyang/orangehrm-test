@@ -1,8 +1,10 @@
 FROM php:8.1-apache-bullseye
 
-COPY . .
+ENV OHRM_VERSION 5.5
+ENV OHRM_MD5 113e76fa9dd42a03f2b6a397fa2ffbc8
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
 
 RUN set -ex; \
 	savedAptMark="$(apt-mark showmanual)"; \
@@ -16,14 +18,10 @@ RUN set -ex; \
 		libicu-dev \
 		unzip \
 	; \
-	ls; \
-	pwd; \
-	mv orangehrm-5.5 /var/www/: \
-	cd .. && rm -r html; \
-	ls; \
-	pwd; \
-	mv /var/www/orangehrm-5.5 html; \
-	ls && pwd;\
+	\
+	cd .. && rm -r html; 
+COPY orangehrm-5.5 /var/www
+RUN	mv orangehrm-5.5 html; \
 	chown www-data:www-data html; \
 	chown -R www-data:www-data html/src/cache html/src/log html/src/config; \
 	chmod -R 775 html/src/cache html/src/log html/src/config; \
@@ -63,11 +61,10 @@ RUN { \
 		echo 'opcache.revalidate_freq=60'; \
 		echo 'opcache.fast_shutdown=1'; \
 		echo 'opcache.enable_cli=1'; \
-	} > /usr/local/etc/php/conf.d/opcache-recommended.ini; 
-
-
-
-	
-
+	} > /usr/local/etc/php/conf.d/opcache-recommended.ini; \
+	\
+	if command -v a2enmod; then \
+		a2enmod rewrite; \
+	fi;
 
 VOLUME ["/var/www/html"]
