@@ -3,9 +3,7 @@ version: "3.3"
 services:
       
   orangehrm:
-    build: 
-      context: orangehrm-5.5
-      target: builder
+    image: orhm:7
     restart: unless-stopped
     ports:
       - "8200:80"
@@ -18,4 +16,4 @@ services:
       - PUID=998
       - PGID=100
     volumes:
-      - ./orange:/var/www/html
+      - ./orange:/orangehrm
