@@ -3,7 +3,7 @@ version: "3.3"
 services:
       
   orangehrm:
-    image: orhm:7
+    image: orangehrm
     restart: unless-stopped
     ports:
       - "8200:80"
