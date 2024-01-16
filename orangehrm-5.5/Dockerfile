@@ -1,4 +1,4 @@
-FROM php:8.1-apache-bullseye
+FROM php:8.1-apache-bullseye as builder
 #FROM php:8.1-apache
 
 ENV OHRM_VERSION 5.5
@@ -26,6 +26,11 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 WORKDIR /var/www/html
 COPY . .
+
+FROM php:8.1-apache-bullseye 
+
+COPY --from=builder /var/www/html /var/www/html
+
 RUN chown -R  www-data:www-data /var/www/html
 RUN chmod -R 775 /var/www/html
 
